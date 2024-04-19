@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "137355047885",
+    "project_id": "playtomic-f8465",
+    "storage_bucket": "playtomic-f8465.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:137355047885:android:3822bbbc8df7fe52120a84",
+        "android_client_info": {
+          "package_name": "com.example.playtomic"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBn8nXWPPB654t4UOEAofBMRx77jv8W_Y4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
