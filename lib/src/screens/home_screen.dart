@@ -3,7 +3,7 @@ import 'package:playtomic/src/services/auth_service.dart';
 
 class HomeScreen extends StatelessWidget {
   final AuthService _authService = AuthService();
-  static const routeName = '/';
+  static const routeName = '/home';
 
   HomeScreen({super.key});
 

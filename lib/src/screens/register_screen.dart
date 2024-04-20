@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:playtomic/src/screens/home_screen.dart';
 import 'package:playtomic/src/services/auth_service.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -229,7 +230,8 @@ class RegisterScreenState extends State<RegisterScreen> {
                         );
                         // Navigate to home page after successful registration
                         if (!context.mounted) return;
-                        Navigator.of(context).pushReplacementNamed('/login');
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, HomeScreen.routeName, (r) => false);
                       } catch (error) {
                         // Handle registration error
                         showDialog(

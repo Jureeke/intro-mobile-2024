@@ -4,10 +4,10 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:playtomic/src/screens/home_screen.dart';
 import 'package:playtomic/src/screens/login_screen.dart';
 import 'package:playtomic/src/screens/register_screen.dart';
+import 'package:playtomic/src/screens/start_screen.dart';
 import 'package:playtomic/src/services/auth_service.dart';
 
 import 'settings/settings_controller.dart';
-import 'settings/settings_view.dart';
 
 /// The Widget that configures your application.
 class MyApp extends StatelessWidget {
@@ -69,26 +69,13 @@ class MyApp extends StatelessWidget {
 
           // Define a function to handle named routes in order to support
           // Flutter web url navigation and deep linking.
-          onGenerateRoute: (RouteSettings routeSettings) {
-            return MaterialPageRoute<void>(
-              settings: routeSettings,
-              builder: (BuildContext context) {
-                switch (routeSettings.name) {
-                  case SettingsView.routeName:
-                    return SettingsView(controller: settingsController);
-                  case LoginScreen.routeName:
-                    return const LoginScreen();
-                  case RegisterScreen.routeName:
-                    return const RegisterScreen();
-                  case HomeScreen.routeName:
-                    return HomeScreen();
-                  default:
-                    return HomeScreen();
-                }
-              },
-            );
+          initialRoute: _authService.isLoggedIn() ? '/home' : '/start',
+          routes: {
+            StartScreen.routeName: (context) => StartScreen(),
+            RegisterScreen.routeName: (context) => const RegisterScreen(),
+            LoginScreen.routeName: (context) => const LoginScreen(),
+            HomeScreen.routeName: (context) => HomeScreen(),
           },
-          initialRoute: _authService.isLoggedIn() ? '/home' : '/login',
         );
       },
     );
