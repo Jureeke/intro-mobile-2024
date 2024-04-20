@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
+import 'package:google_sign_in/google_sign_in.dart';
+
 class AuthService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _db = FirebaseFirestore.instance;
@@ -18,6 +20,7 @@ class AuthService {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
           email: email, password: encryptedPassword);
 
+      result.user?.updateDisplayName(username);
       // Create a new document in Firestore for the user
       await _db
           .collection('users')
@@ -73,5 +76,28 @@ class AuthService {
   bool isLoggedIn() {
     User? user = _auth.currentUser;
     return user != null;
+  }
+
+  Future<void> signInWithGoogle() async {
+    GoogleSignInAccount? googleUser = await GoogleSignIn(
+            clientId:
+                "137355047885-54v37gnflplod160jpo3rv0vs1hnrd8o.apps.googleusercontent.com")
+        .signIn();
+
+    GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
+
+    AuthCredential credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken, idToken: googleAuth?.idToken);
+    UserCredential userCredential =
+        await _auth.signInWithCredential(credential);
+
+    await _db.collection('users').doc(userCredential.user!.uid).set({
+      'username': userCredential.user?.displayName,
+      'mobile': userCredential.user?.phoneNumber
+    });
+  }
+
+  signInWithFacebook() {
+    throw Exception("signInWithFacebook is not yet implemented");
   }
 }
