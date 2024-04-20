@@ -9,7 +9,7 @@ class AuthService {
 
   // Method to register a new user
   Future<void> registerUser(
-      String email, String password, String username) async {
+      String email, String password, String username, String mobile) async {
     try {
       // Encrypt the password
       String encryptedPassword = encryptPassword(password);
@@ -22,7 +22,7 @@ class AuthService {
       await _db
           .collection('users')
           .doc(result.user!.uid)
-          .set({'username': username});
+          .set({'username': username, 'mobile': mobile});
     } catch (error) {
       print("Error registering user: $error");
       rethrow;
