@@ -73,6 +73,21 @@ class AuthService {
     return null;
   }
 
+  Future<DocumentSnapshot<Map<String, dynamic>>?> getUserInfo() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      DocumentSnapshot<Map<String, dynamic>> userDataSnapshot =
+          await FirebaseFirestore.instance
+              .collection('users')
+              .doc(user.uid)
+              .get();
+      if (userDataSnapshot.exists) {
+        return userDataSnapshot;
+      }
+    }
+    return null;
+  }
+
   bool isLoggedIn() {
     User? user = _auth.currentUser;
     return user != null;
@@ -99,5 +114,33 @@ class AuthService {
 
   signInWithFacebook() {
     throw Exception("signInWithFacebook is not yet implemented");
+  }
+
+  Future<void> updateUserInfo(
+    String username,
+    String email,
+    String mobile,
+    String gender,
+    String dateOfBirth,
+    String description,
+    String location,
+  ) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        await _db.collection('users').doc(user.uid).update({
+          'username': username,
+          'email': email,
+          'mobile': mobile,
+          'gender': gender,
+          'dateOfBirth': dateOfBirth,
+          'description': description,
+          'location': location,
+        });
+      }
+    } catch (error) {
+      print("Error updating user info: $error");
+      rethrow;
+    }
   }
 }

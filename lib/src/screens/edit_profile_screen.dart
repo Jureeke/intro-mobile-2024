@@ -1,4 +1,4 @@
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:playtomic/src/screens/edit_interests_screen.dart';
@@ -16,25 +16,60 @@ class EditProfileScreen extends StatefulWidget {
 }
 
 class EditProfileScreenState extends State<EditProfileScreen> {
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _genderController = TextEditingController();
-  TextEditingController _dateController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-  TextEditingController _locationController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _genderController = TextEditingController();
+  final TextEditingController _dateController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _locationController = TextEditingController();
 
   final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    populateControllers();
+  }
+
+  void populateControllers() async {
+    DocumentSnapshot<Map<String, dynamic>>? userInfo =
+        await _authService.getUserInfo();
+    if (userInfo != null) {
+      setState(() {
+        _nameController.text = userInfo.data()?['username'] ?? '';
+        _emailController.text = userInfo.data()?['email'] ?? '';
+        _phoneController.text = userInfo.data()?['mobile'] ?? '';
+        _genderController.text = userInfo.data()?['gender'] ?? '';
+        _dateController.text = userInfo.data()?['dateOfBirth'] ?? '';
+        _descriptionController.text = userInfo.data()?['description'] ?? '';
+        _locationController.text = userInfo.data()?['location'] ?? '';
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Center(child: Text('Edit profile')),
-          actions: const [
+          actions: [
             TextButton(
-              onPressed: null,
-              child: Text(
+              onPressed: () async {
+                try {
+                  await _authService.updateUserInfo(
+                      _nameController.text,
+                      _emailController.text,
+                      _phoneController.text,
+                      _genderController.text,
+                      _dateController.text,
+                      _descriptionController.text,
+                      _locationController.text);
+                } catch (error) {
+                  // Handle any errors
+                }
+              },
+              child: const Text(
                 'Save',
                 style: TextStyle(color: Colors.indigo, fontSize: 16.0),
               ),
