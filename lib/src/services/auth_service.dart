@@ -88,6 +88,12 @@ class AuthService {
     return null;
   }
 
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>> getClubs() async {
+    QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('clubs').get();
+    return querySnapshot.docs;
+  }
+
   bool isLoggedIn() {
     User? user = _auth.currentUser;
     return user != null;
