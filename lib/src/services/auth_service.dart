@@ -47,6 +47,10 @@ class AuthService {
     }
   }
 
+  signOut() {
+    _auth.signOut();
+  }
+
   // Method to encrypt password
   String encryptPassword(String password) {
     const key =

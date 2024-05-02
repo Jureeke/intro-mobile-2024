@@ -64,7 +64,8 @@ class LoginScreenState extends State<LoginScreen> {
                       _passwordController.text,
                     );
                     // Navigate to home page after successful login
-                    Navigator.of(context).pushReplacementNamed('/home');
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/home', (Route<dynamic> route) => false);
                   } catch (error) {
                     // Handle login error
                     showDialog(

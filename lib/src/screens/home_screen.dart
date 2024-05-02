@@ -3,6 +3,8 @@ import 'package:playtomic/src/screens/community_screen.dart';
 import 'package:playtomic/src/screens/discovery_screen.dart';
 import 'package:playtomic/src/screens/play_screen.dart';
 import 'package:playtomic/src/screens/profile_screen.dart';
+import 'package:playtomic/src/screens/start_screen.dart';
+import 'package:playtomic/src/services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
   static const routeName = '/home';
@@ -14,6 +16,8 @@ class HomeScreen extends StatefulWidget {
 
 class RegisterScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+
+  AuthService authService = AuthService();
 
   final List<Widget> _screens = [
     PlayScreen(),
@@ -39,7 +43,12 @@ class RegisterScreenState extends State<HomeScreen> {
         ),
         actions: [
           IconButton(
-              onPressed: () {}, icon: Icon(Icons.logout, color: Colors.red))
+              onPressed: () {
+                authService.signOut();
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                    '/start', (Route<dynamic> route) => false);
+              },
+              icon: Icon(Icons.logout, color: Colors.red))
         ],
       ),
       body: _screens[_selectedIndex],
