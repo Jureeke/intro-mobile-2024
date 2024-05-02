@@ -37,6 +37,10 @@ class RegisterScreenState extends State<HomeScreen> {
           'Playtomic',
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {}, icon: Icon(Icons.logout, color: Colors.red))
+        ],
       ),
       body: _screens[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
