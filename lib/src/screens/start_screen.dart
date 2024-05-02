@@ -14,14 +14,12 @@ class StartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-            colors: [
-              Color.fromARGB(255, 5, 14, 21),
-              Color.fromARGB(255, 16, 35, 45)
-            ],
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/images/startscreen-bg.png"),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.grey.withOpacity(0.9), BlendMode.darken),
           ),
         ),
         child: Padding(
@@ -36,12 +34,9 @@ class StartScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    const Text(
-                      "PLAYTOMIC",
-                      style: TextStyle(
-                          fontSize: 24.0,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white),
+                    Image.asset(
+                      "assets/images/playtomic-logo.png",
+                      height: 40,
                     ),
                     const SizedBox(height: 25.0),
                     const Text(

@@ -19,57 +19,88 @@ class LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text('Login'),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        title: Text('Login', style: TextStyle(color: Colors.white)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TextField(
-              controller: _emailController,
-              decoration: const InputDecoration(labelText: 'Email'),
+      body: SizedBox.expand(
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage("assets/images/startscreen-bg.png"),
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(
+                  Colors.grey.withOpacity(0.9), BlendMode.darken),
             ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _passwordController,
-              decoration: const InputDecoration(labelText: 'Password'),
-              obscureText: true,
-            ),
-            const SizedBox(height: 16),
-            ElevatedButton(
-              onPressed: () async {
-                try {
-                  await _authService.loginUser(
-                    _emailController.text,
-                    _passwordController.text,
-                  );
-                  // Navigate to home page after successful login
-                  Navigator.of(context).pushReplacementNamed('/home');
-                } catch (error) {
-                  // Handle login error
-                  showDialog(
-                    context: context,
-                    builder: (context) => AlertDialog(
-                      title: const Text('Login Error'),
-                      content: Text(error.toString()),
-                      actions: [
-                        TextButton(
-                          onPressed: () {
-                            Navigator.of(context).pop();
-                          },
-                          child: const Text('OK'),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-              },
-              child: const Text('Login'),
-            ),
-          ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              SizedBox(
+                  height: MediaQuery.of(context).padding.top +
+                      kToolbarHeight +
+                      16.0),
+              TextField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(labelText: 'Email'),
+                  style: TextStyle(color: Colors.white)),
+              const SizedBox(height: 16),
+              TextField(
+                controller: _passwordController,
+                decoration: const InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                style: TextStyle(color: Colors.white),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await _authService.loginUser(
+                      _emailController.text,
+                      _passwordController.text,
+                    );
+                    // Navigate to home page after successful login
+                    Navigator.of(context).pushReplacementNamed('/home');
+                  } catch (error) {
+                    // Handle login error
+                    showDialog(
+                      context: context,
+                      builder: (context) => AlertDialog(
+                        title: const Text('Login Error'),
+                        content: Text(error.toString()),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      ),
+                    );
+                  }
+                },
+                child:
+                    const Text('Login', style: TextStyle(color: Colors.white)),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color.fromARGB(255, 74, 93, 249),
+                ),
+              ),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: () {},
+                child: Text(
+                  'Ben je je wachtwoord vergeten?',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
