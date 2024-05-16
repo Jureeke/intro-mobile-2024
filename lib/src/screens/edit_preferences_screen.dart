@@ -21,7 +21,8 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
   }
 
   void loadUserPreferences() async {
-    List<String>? userPreferences = await AuthService().loadUserPreferences(); // Roep de functie aan via de AuthService
+    List<String>? userPreferences = await AuthService()
+        .loadUserPreferences(); // Roep de functie aan via de AuthService
     setState(() {
       selectedBestHand = userPreferences?[0];
       selectedBaanPositie = userPreferences?[1];
@@ -44,7 +45,7 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
             children: [
               CustomCheckboxGroupWithLabel(
                 label: 'Best hand',
-                options: ['Right hand', 'Left hand', 'Both'],
+                options: ['Right-handed', 'Left-handed', 'Both hands'],
                 preferenceKey: 'best-hand',
                 selectedValue: selectedBestHand,
                 onChanged: (value) {
@@ -55,8 +56,8 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
               ),
               SizedBox(height: 0),
               CustomCheckboxGroupWithLabel(
-                label: 'Baanpositie',
-                options: ['Backend', 'Forehand', 'Beide helften'],
+                label: 'Court side',
+                options: ['Backend', 'Forehand', 'Both sides'],
                 preferenceKey: 'baanpositie',
                 selectedValue: selectedBaanPositie,
                 onChanged: (value) {
@@ -67,8 +68,8 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
               ),
               SizedBox(height: 30),
               CustomCheckboxGroupWithLabel(
-                label: 'Type partij',
-                options: ['Concurrederen', 'Vriendschappelijk', 'Beide'],
+                label: 'Match type',
+                options: ['Competitive', 'Friendly', 'Both'],
                 preferenceKey: 'type-partij',
                 selectedValue: selectedTypePartij,
                 onChanged: (value) {
@@ -79,7 +80,7 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
               ),
               SizedBox(height: 10),
               Text(
-                  'Competitief betekent dat de resultaten van de open wedstrijden meetellen voor de beoordeling van het niveau')
+                  'The result of the match will count for your level progress if you make it competitive')
             ],
           ),
         ),
@@ -157,7 +158,8 @@ class CustomCheckbox extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         onChanged(isSelected ? null : text);
-        authService.saveUserPreferences({preferenceKey!: isSelected ? null : text});
+        authService
+            .saveUserPreferences({preferenceKey!: isSelected ? null : text});
       },
       child: Container(
         decoration: BoxDecoration(

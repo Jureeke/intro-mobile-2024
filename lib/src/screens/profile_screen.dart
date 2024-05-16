@@ -58,7 +58,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: [
                           Column(children: [
-                            Text('0'),
+                            Text('12'),
                             Text(
                               'Matches',
                               style: TextStyle(fontSize: 14.0),
@@ -66,7 +66,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                           ]),
                           SizedBox(height: 25, child: VerticalDivider()),
                           Column(children: [
-                            Text('0'),
+                            Text('4'),
                             Text(
                               'Followers',
                               style: TextStyle(fontSize: 14.0),
@@ -74,7 +74,7 @@ class ProfileScreenState extends State<ProfileScreen> {
                           ]),
                           SizedBox(height: 25, child: VerticalDivider()),
                           Column(children: [
-                            Text('0'),
+                            Text('8'),
                             Text(
                               'Following',
                               style: TextStyle(fontSize: 14.0),

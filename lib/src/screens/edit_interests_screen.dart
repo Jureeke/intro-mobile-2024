@@ -15,13 +15,13 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
   String errorMessage = '';
 
   final List<Option> options = [
-    Option(name: 'Mijn voortgang bijhouden', icon: Icons.accessibility),
-    Option(name: 'Mijn speelniveau kennen', icon: Icons.favorite_border),
-    Option(name: 'Ontdek de gemeenschap', icon: Icons.access_time),
-    Option(name: 'Reserveer een baan', icon: Icons.airplanemode_active),
-    Option(name: 'Concurreren met anderen', icon: Icons.attach_money),
-    Option(name: 'Spelen met mijn vrienden', icon: Icons.heat_pump_rounded),
-    Option(name: 'Zoek mensen om mee te spelen', icon: Icons.cake),
+    Option(name: 'Discover the community', icon: Icons.chat),
+    Option(name: 'Compete with others', icon: Icons.emoji_events),
+    Option(name: 'Play with my friends', icon: Icons.favorite),
+    Option(name: 'Find out my level of play', icon: Icons.signal_cellular_alt),
+    Option(name: 'Track my progress', icon: Icons.trending_up),
+    Option(name: 'Book a court', icon: Icons.search),
+    Option(name: 'Find people to play with', icon: Icons.group),
   ];
 
   @override
@@ -85,7 +85,7 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
             if (isLoading) const Center(child: CircularProgressIndicator()),
             if (!isLoading) ...[
               const Text(
-                'Je interesse',
+                'Your interests',
                 style: TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.bold,
@@ -93,7 +93,7 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
               ),
               SizedBox(height: 20),
               const Text(
-                'Wat zoek je in Playtomic',
+                'What are you looking for in Playtomic?',
                 style: TextStyle(
                   fontSize: 16,
                 ),
@@ -157,7 +157,7 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
                     backgroundColor: Colors.blue,
                   ),
                   child: const Text(
-                    'Opslaan',
+                    'Save',
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),
