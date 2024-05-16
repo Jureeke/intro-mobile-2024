@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:playtomic/src/services/auth_service.dart';
 
 class EditInterestsScreen extends StatefulWidget {
   static const routeName = '/home/profile/edit/interests';
@@ -8,7 +9,10 @@ class EditInterestsScreen extends StatefulWidget {
 }
 
 class _EditInterestsScreenState extends State<EditInterestsScreen> {
-  late List<bool> selectedIndices;
+  late List<String> selectedInterests;
+  final AuthService _authService = AuthService();
+  bool isLoading = true;
+  String errorMessage = '';
 
   final List<Option> options = [
     Option(name: 'Mijn voortgang bijhouden', icon: Icons.accessibility),
@@ -23,7 +27,50 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
   @override
   void initState() {
     super.initState();
-    selectedIndices = List.generate(options.length, (index) => false);
+    selectedInterests = [];
+    _loadInterests();
+  }
+
+  Future<void> _loadInterests() async {
+    try {
+      List<String>? interests = await _authService.loadUserInterests();
+      if (interests != null) {
+        setState(() {
+          selectedInterests = interests;
+        });
+      }
+    } catch (e) {
+      setState(() {
+        errorMessage =
+            'Er is een fout opgetreden bij het laden van de interesses: $e';
+      });
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+  Future<void> _saveInterests() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      await _authService.saveUserInterests(selectedInterests);
+      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+        content: Text('Interesses succesvol opgeslagen!'),
+      ));
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+            'Er is een fout opgetreden bij het opslaan van de interesses: $e'),
+      ));
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
   }
 
   @override
@@ -35,81 +82,94 @@ class _EditInterestsScreenState extends State<EditInterestsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Je interesse',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+            if (isLoading) const Center(child: CircularProgressIndicator()),
+            if (!isLoading) ...[
+              const Text(
+                'Je interesse',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Text(
-              'Wat zoek je in Playtomic',
-              style: TextStyle(
-                fontSize: 16,
+              SizedBox(height: 20),
+              const Text(
+                'Wat zoek je in Playtomic',
+                style: TextStyle(
+                  fontSize: 16,
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 1,
-                childAspectRatio: 7.5, // Hoogte van de kaders
-                children: List.generate(options.length, (index) {
-                  return InkWell(
-                    onTap: () {
-                      setState(() {
-                        selectedIndices[index] = !selectedIndices[index];
-                      });
-                    },
-                    child: Container(
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      decoration: BoxDecoration(
-                        color: Colors.white, // Achtergrondkleur wit
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: selectedIndices[index]
-                              ? Colors.blue // Blauwe rand als geselecteerd
-                              : Colors.grey[300]!, // Lichtgrijze rand
+              SizedBox(height: 20),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 1,
+                  childAspectRatio: 7.5,
+                  children: List.generate(options.length, (index) {
+                    return InkWell(
+                      onTap: () {
+                        setState(() {
+                          if (selectedInterests.contains(options[index].name)) {
+                            selectedInterests.remove(options[index].name);
+                          } else {
+                            selectedInterests.add(options[index].name);
+                          }
+                        });
+                      },
+                      child: Container(
+                        margin: EdgeInsets.symmetric(vertical: 5),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(
+                            color:
+                                selectedInterests.contains(options[index].name)
+                                    ? Colors.blue
+                                    : Colors.grey[300]!,
+                          ),
+                        ),
+                        padding: EdgeInsets.all(10),
+                        child: Row(
+                          children: [
+                            SizedBox(width: 10),
+                            Icon(options[index].icon),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Text(
+                                options[index].name,
+                                style: TextStyle(fontSize: 16),
+                              ),
+                            ),
+                            SizedBox(width: 10),
+                            if (selectedInterests.contains(options[index].name))
+                              Icon(Icons.check, color: Colors.blue),
+                          ],
                         ),
                       ),
-                      padding: EdgeInsets.all(10), // Padding toevoegen
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10),
-                          Icon(options[index].icon), // Pictogram toevoegen
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              options[index].name, // Naam toevoegen
-                              style: TextStyle(fontSize: 16),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          if (selectedIndices[index])
-                            Icon(Icons.check, color: Colors.blue),
-                        ],
-                      ),
-                    ),
-                  );
-                }),
-              ),
-            ),
-            SizedBox(height: 20),
-            SizedBox(
-              width: double.infinity, // Neemt volledige breedte in
-              child: ElevatedButton(
-                onPressed: () {
-                  // Voeg hier de actie toe die moet worden uitgevoerd wanneer de knop wordt ingedrukt
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.blue, // Achtergrondkleur blauw
-                ),
-                child: Text(
-                  'Opslaan',
-                  style: TextStyle(color: Colors.white, fontSize: 20), // Tekst wit
+                    );
+                  }),
                 ),
               ),
-            ),
+              SizedBox(height: 20),
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: _saveInterests,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Colors.blue,
+                  ),
+                  child: const Text(
+                    'Opslaan',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                  ),
+                ),
+              ),
+              if (errorMessage.isNotEmpty) ...[
+                SizedBox(height: 20),
+                Text(
+                  errorMessage,
+                  style: TextStyle(color: Colors.red),
+                ),
+              ]
+            ]
           ],
         ),
       ),

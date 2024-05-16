@@ -94,7 +94,7 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {},
-                child: Text(
+                child: const Text(
                   'Ben je je wachtwoord vergeten?',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white),

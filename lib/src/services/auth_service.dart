@@ -190,4 +190,88 @@ class AuthService {
       rethrow;
     }
   }
+
+  // Methode om voorkeuren op te slaan
+  Future<void> saveUserInterests(List<String> interests) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        await _db
+            .collection('users')
+            .doc(user.uid)
+            .set({'interests': interests}, SetOptions(merge: true));
+        print("Interesses opgeslagen voor gebruiker ${user.uid}");
+      } catch (e) {
+        print("Error saving interests: $e");
+        rethrow;
+      }
+    }
+  }
+
+  // Methode om voorkeuren op te halen
+  Future<List<String>?> loadUserInterests() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        DocumentSnapshot<Map<String, dynamic>> userDoc = await _db
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (userDoc.exists) {
+          Map<String, dynamic>? data = userDoc.data();
+          if (data != null && data.containsKey('interests')) {
+            return List<String>.from(data['interests']);
+          }
+        }
+      } catch (e) {
+        print("Error loading interests: $e");
+        rethrow;
+      }
+    }
+    return null;
+  }
+
+  Future<void> saveUserPreferences(Map<String, String?> preferences) async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        await _db
+            .collection('users')
+            .doc(user.uid)
+            .set({'preferences': preferences}, SetOptions(merge: true));
+        print("Voorkeuren opgeslagen voor gebruiker ${user.uid}");
+      } catch (e) {
+        print("Error saving preferences: $e");
+        rethrow;
+      }
+    }
+  }
+
+  // Methode om voorkeuren op te halen
+  Future<List<String>?> loadUserPreferences() async {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      try {
+        DocumentSnapshot<Map<String, dynamic>> userDoc = await _db
+            .collection('users')
+            .doc(user.uid)
+            .get();
+        if (userDoc.exists) {
+          Map<String, dynamic>? data = userDoc.data();
+          if (data != null && data.containsKey('preferences')) {
+            Map<String, dynamic> preferences = data['preferences'];
+            return [
+              preferences['best-hand'],
+              preferences['baanpositie'],
+              preferences['type-partij'],
+            ];
+          }
+        }
+      } catch (e) {
+        print("Error loading preferences: $e");
+        rethrow;
+      }
+    }
+    return null;
+  }
 }
