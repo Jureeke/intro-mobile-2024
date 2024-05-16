@@ -98,6 +98,43 @@ class AuthService {
     return querySnapshot.docs;
   }
 
+  Future<List<DocumentSnapshot<Map<String, dynamic>>>> getClubReservations(
+      String clubID) async {
+    DocumentReference clubRef =
+        FirebaseFirestore.instance.collection('clubs').doc(clubID);
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('reservations')
+        .where('clubRef', isEqualTo: clubRef)
+        .get();
+    return querySnapshot.docs;
+  }
+
+  Future<void> bookCourt(
+    String clubID,
+    int court,
+    bool isPublic,
+    DateTime reservationDateTime,
+  ) async {
+    try {
+      DocumentReference clubRef =
+          FirebaseFirestore.instance.collection('clubs').doc(clubID);
+      User? user = _auth.currentUser;
+      if (user != null) {
+        await _db.collection('reservations').doc().set({
+          'clubRef': clubRef,
+          'court': court,
+          'isPublic': isPublic,
+          'reservationDateTime': reservationDateTime,
+          'userRef': _db.collection('users').doc(user.uid),
+        });
+      }
+    } catch (error) {
+      print("Error creting booking: $error");
+      rethrow;
+    }
+  }
+
   bool isLoggedIn() {
     User? user = _auth.currentUser;
     return user != null;

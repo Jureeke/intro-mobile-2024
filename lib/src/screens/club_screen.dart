@@ -6,19 +6,19 @@ import 'package:playtomic/src/screens/club_home_screen.dart';
 class ClubScreen extends StatelessWidget {
   final Map<String, dynamic> clubData;
 
-  ClubScreen({super.key, required this.clubData});
-
-  final List<Widget> _screens = [
-    const ClubHomeScreen(),
-    const ClubBookScreen(),
-    const ClubCompetitionsScreen(),
-  ];
+  const ClubScreen({super.key, required this.clubData});
 
   @override
   Widget build(BuildContext context) {
+    final List<Widget> screens = [
+      const ClubHomeScreen(),
+      ClubBookScreen(clubData: clubData, isPublic: false),
+      const ClubCompetitionsScreen(),
+    ];
+
     return DefaultTabController(
       initialIndex: 1,
-      length: _screens.length,
+      length: screens.length,
       child: Scaffold(
         body: NestedScrollView(
           headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
@@ -39,6 +39,7 @@ class ClubScreen extends StatelessWidget {
             ];
           },
           body: Scaffold(
+            backgroundColor: const Color.fromARGB(255, 245, 245, 245),
             appBar: AppBar(
               toolbarHeight: 50,
               title: Text(clubData['name']),
@@ -66,7 +67,7 @@ class ClubScreen extends StatelessWidget {
             ),
             body: TabBarView(
               physics: const NeverScrollableScrollPhysics(),
-              children: _screens,
+              children: screens,
             ),
           ),
         ),

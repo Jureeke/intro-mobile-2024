@@ -38,7 +38,10 @@ class BookACourtScreenState extends State<BookACourtScreen> {
           return ListView.builder(
             itemCount: clubs.length,
             itemBuilder: (context, index) {
-              Map<String, dynamic> clubData = clubs[index].data()!;
+              Map<String, dynamic> clubData = {
+                'id': clubs[index].id,
+                ...clubs[index].data()!,
+              };
               String clubName = clubData['name'];
               String imageUrl = clubData['image'];
               return GestureDetector(
@@ -56,38 +59,41 @@ class BookACourtScreenState extends State<BookACourtScreen> {
                       height: 15,
                       decoration: BoxDecoration(color: Colors.grey[300]),
                     ),
-                    Stack(
-                      alignment: Alignment.bottomLeft,
-                      children: [
-                        Container(
-                          height: 200,
-                          decoration: BoxDecoration(
-                            image: DecorationImage(
-                              image: NetworkImage(imageUrl),
-                              fit: BoxFit.cover,
+                    MouseRegion(
+                      cursor: SystemMouseCursors.click,
+                      child: Stack(
+                        alignment: Alignment.bottomLeft,
+                        children: [
+                          Container(
+                            height: 200,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: NetworkImage(imageUrl),
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                            child: Container(
+                              color: Colors.black.withOpacity(0.3),
                             ),
                           ),
-                          child: Container(
-                            color: Colors.black.withOpacity(0.3),
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.all(16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                clubName,
-                                style: const TextStyle(
-                                  fontSize: 24,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
+                          Container(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  clubName,
+                                  style: const TextStyle(
+                                    fontSize: 24,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ],
                 ),
