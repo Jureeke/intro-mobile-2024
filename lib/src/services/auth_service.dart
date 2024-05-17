@@ -110,6 +110,83 @@ class AuthService {
     return querySnapshot.docs;
   }
 
+  Future<List<Map<String, dynamic>>> getAllPublicReservations() async {
+    DateTime currentDate = DateTime.now().add(const Duration(hours: 1));
+    QuerySnapshot<Map<String, dynamic>> querySnapshot = await FirebaseFirestore
+        .instance
+        .collection('reservations')
+        .where('reservationDateTime',
+            isGreaterThan: Timestamp.fromDate(currentDate))
+        .get();
+
+    List<Map<String, dynamic>> reservations = [];
+
+    for (var reservationDoc in querySnapshot.docs) {
+      Map<String, dynamic> reservationData = reservationDoc.data();
+      reservationData['id'] = reservationDoc.id;
+
+      DocumentReference clubRef = reservationData['clubRef'];
+      DocumentReference? userHomeLeftRef = reservationData['userHomeLeftRef'];
+      DocumentReference? userHomeRightRef = reservationData['userHomeRightRef'];
+      DocumentReference? userAwayLeftRef = reservationData['userAwayLeftRef'];
+      DocumentReference? userAwayRightRef = reservationData['userAwayRightRef'];
+
+      if (userHomeLeftRef != null) {
+        DocumentSnapshot<Map<String, dynamic>> userHomeLeftSnapshot =
+            await userHomeLeftRef.get()
+                as DocumentSnapshot<Map<String, dynamic>>;
+
+        if (userHomeLeftSnapshot.exists) {
+          Map<String, dynamic> data = userHomeLeftSnapshot.data()!;
+          reservationData['userHomeLeft'] = data;
+        }
+      }
+      if (userHomeRightRef != null) {
+        DocumentSnapshot<Map<String, dynamic>> userHomeRightSnapshot =
+            await userHomeRightRef.get()
+                as DocumentSnapshot<Map<String, dynamic>>;
+        if (userHomeRightSnapshot.exists) {
+          Map<String, dynamic> userHomeRightData =
+              userHomeRightSnapshot.data()!;
+          reservationData['userHomeRight'] = userHomeRightData;
+        }
+      }
+      if (userAwayLeftRef != null) {
+        DocumentSnapshot<Map<String, dynamic>> userAwayLeftSnapshot =
+            await userAwayLeftRef.get()
+                as DocumentSnapshot<Map<String, dynamic>>;
+        if (userAwayLeftSnapshot.exists) {
+          Map<String, dynamic> userAwayLeftData = userAwayLeftSnapshot.data()!;
+          reservationData['userAwayLeft'] = userAwayLeftData;
+        }
+      }
+      if (userAwayRightRef != null) {
+        DocumentSnapshot<Map<String, dynamic>> userAwayRightSnapshot =
+            await userAwayRightRef.get()
+                as DocumentSnapshot<Map<String, dynamic>>;
+        if (userAwayRightSnapshot.exists) {
+          Map<String, dynamic> userAwayRightData =
+              userAwayRightSnapshot.data()!;
+          reservationData['userAwayRight'] = userAwayRightData;
+        }
+      }
+
+      DocumentSnapshot<Map<String, dynamic>> clubSnapshot =
+          await clubRef.get() as DocumentSnapshot<Map<String, dynamic>>;
+      if (clubSnapshot.exists) {
+        Map<String, dynamic> data = clubSnapshot.data()!;
+        reservationData['club'] = data;
+      }
+      if (reservationData['isPublic']) {
+        reservations.add(reservationData);
+      }
+    }
+    reservations.sort((a, b) => (a['reservationDateTime'] as Timestamp)
+        .toDate()
+        .compareTo((b['reservationDateTime'] as Timestamp).toDate()));
+    return reservations;
+  }
+
   Future<void> bookCourt(
     String clubID,
     int court,
@@ -121,16 +198,51 @@ class AuthService {
           FirebaseFirestore.instance.collection('clubs').doc(clubID);
       User? user = _auth.currentUser;
       if (user != null) {
+        DocumentReference? userRef = getUserRef();
         await _db.collection('reservations').doc().set({
           'clubRef': clubRef,
           'court': court,
           'isPublic': isPublic,
           'reservationDateTime': reservationDateTime,
-          'userRef': _db.collection('users').doc(user.uid),
+          'userRef': userRef,
+          'userHomeLeftRef': userRef,
+          'userHomeRightRef': null,
+          'userAwayLeftRef': null,
+          'userAwayRightRef': null,
         });
       }
     } catch (error) {
-      print("Error creting booking: $error");
+      print("Error creating booking: $error");
+      rethrow;
+    }
+  }
+
+  DocumentReference? getUserRef() {
+    User? user = _auth.currentUser;
+    if (user != null) {
+      return _db.collection('users').doc(user.uid);
+    }
+    return null;
+  }
+
+  User? getUser() {
+    return _auth.currentUser;
+  }
+
+  Future<void> joinMatch(
+    String reservationID,
+    Map<String, DocumentReference?> position,
+  ) async {
+    try {
+      User? user = _auth.currentUser;
+      if (user != null) {
+        await _db
+            .collection('reservations')
+            .doc(reservationID)
+            .set(position, SetOptions(merge: true));
+      }
+    } catch (error) {
+      print("Error joining match: $error");
       rethrow;
     }
   }

@@ -27,7 +27,7 @@ class PlayScreen extends StatelessWidget {
                     title: 'Book a court',
                     subtitle: 'If you already know who you are playing with',
                     icon: const Icon(Icons.search, color: Colors.white),
-                    screen: BookACourtScreen(),
+                    screen: const BookACourtScreen(isPublic: false),
                   ),
                   const SizedBox(width: 10.0),
                   _buildGestureDetector(
@@ -37,7 +37,7 @@ class PlayScreen extends StatelessWidget {
                     subtitle: 'If you are looking for players at your level',
                     icon: const Icon(Icons.sports_baseball_outlined,
                         color: Colors.white),
-                    screen: PlayOpenMatchScreen(),
+                    screen: const PlayOpenMatchScreen(),
                   ),
                 ],
               ),

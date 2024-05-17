@@ -5,14 +5,15 @@ import 'package:playtomic/src/screens/club_home_screen.dart';
 
 class ClubScreen extends StatelessWidget {
   final Map<String, dynamic> clubData;
+  final bool isPublic;
 
-  const ClubScreen({super.key, required this.clubData});
+  const ClubScreen({super.key, required this.clubData, required this.isPublic});
 
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
       const ClubHomeScreen(),
-      ClubBookScreen(clubData: clubData, isPublic: false),
+      ClubBookScreen(clubData: clubData, isPublic: isPublic),
       const ClubCompetitionsScreen(),
     ];
 

@@ -4,7 +4,8 @@ import 'package:playtomic/src/screens/club_screen.dart';
 import 'package:playtomic/src/services/auth_service.dart';
 
 class BookACourtScreen extends StatefulWidget {
-  const BookACourtScreen({super.key});
+  final bool isPublic;
+  const BookACourtScreen({super.key, required this.isPublic});
 
   @override
   BookACourtScreenState createState() => BookACourtScreenState();
@@ -49,7 +50,8 @@ class BookACourtScreenState extends State<BookACourtScreen> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => ClubScreen(clubData: clubData),
+                      builder: (context) => ClubScreen(
+                          clubData: clubData, isPublic: widget.isPublic),
                     ),
                   );
                 },
