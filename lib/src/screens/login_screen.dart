@@ -45,13 +45,32 @@ class LoginScreenState extends State<LoginScreen> {
                       kToolbarHeight +
                       16.0),
               TextField(
-                  controller: _emailController,
-                  decoration: const InputDecoration(labelText: 'Email'),
-                  style: TextStyle(color: Colors.white)),
+                controller: _emailController,
+                decoration: InputDecoration(
+                  labelText: 'Email',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+                style: TextStyle(color: Colors.white),
+              ),
               const SizedBox(height: 16),
               TextField(
                 controller: _passwordController,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
                 obscureText: true,
                 style: TextStyle(color: Colors.white),
               ),
@@ -85,8 +104,7 @@ class LoginScreenState extends State<LoginScreen> {
                     );
                   }
                 },
-                child:
-                    const Text('Login', style: TextStyle(color: Colors.white)),
+                child: const Text('Login', style: TextStyle(color: Colors.white)),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Color.fromARGB(255, 74, 93, 249),
                 ),
@@ -94,7 +112,7 @@ class LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 8),
               GestureDetector(
                 onTap: () {},
-                child: Text(
+                child: const Text(
                   'Ben je je wachtwoord vergeten?',
                   textAlign: TextAlign.center,
                   style: TextStyle(color: Colors.white),

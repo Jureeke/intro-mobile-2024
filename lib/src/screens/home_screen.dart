@@ -3,7 +3,6 @@ import 'package:playtomic/src/screens/community_screen.dart';
 import 'package:playtomic/src/screens/discovery_screen.dart';
 import 'package:playtomic/src/screens/play_screen.dart';
 import 'package:playtomic/src/screens/profile_screen.dart';
-import 'package:playtomic/src/screens/start_screen.dart';
 import 'package:playtomic/src/services/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
