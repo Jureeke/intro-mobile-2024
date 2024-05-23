@@ -1,4 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ClubHomeScreen extends StatefulWidget {
   static const routeName = '/home/profile/posts';
@@ -13,12 +15,49 @@ class ClubHomeScreen extends StatefulWidget {
 class _ClubHomeScreenState extends State<ClubHomeScreen> {
   late int opens;
   late int closes;
+  late GeoPoint location;
+  late String name;
+  late Map<String, dynamic> addressData; 
 
-  @override
+  //Adress
+  late GoogleMapController mapController;
+
+  late LatLng _center; // Your specified coordinates
+  final Set<Marker> _markers = {};
+
+    @override
   void initState() {
     super.initState();
     opens = widget.clubData['opens'];
     closes = widget.clubData['closes'];
+    location = widget.clubData['location'];
+    _center = LatLng(location.latitude, location.longitude);
+    name = widget.clubData['name'];
+    var address = widget.clubData['address'] as Map<String, dynamic>;
+    addressData = {
+      'city': address['city'],
+      'street': address['street'],
+      'zipcode': address['zipcode'],
+    };
+  }
+
+  void _onMapCreated(GoogleMapController controller) {
+    mapController = controller;
+    _addMarker();
+  }
+
+  void _addMarker() {
+    setState(() {
+      _markers.add(
+        Marker(
+          markerId: MarkerId(name),
+          position: _center,
+          infoWindow: InfoWindow(
+            title: name,
+            snippet: '${addressData['street']}<br> ${addressData['city']} ${addressData['zipcode']}'
+        ),
+      ));
+    });
   }
 
   @override
@@ -45,6 +84,11 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
                 ),
               ],
             ),
+            SizedBox(height: 25),
+            Text(
+              '1 court(s) available',
+              style: TextStyle(fontSize: 15),
+            ),
             const SizedBox(height: 30),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -55,15 +99,17 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
               ],
             ),
             const SizedBox(height: 20),
-            Expanded(
-              child: Container(
-                color: Colors.grey[300],
-                child: const Center(
-                  child: Text(
-                    'Map will be here',
-                    style: TextStyle(fontSize: 16, color: Colors.black54),
-                  ),
+            Container(
+              height: 300,
+              width: double.infinity,
+              color: Colors.grey[300],
+              child: GoogleMap(
+                onMapCreated: _onMapCreated,
+                initialCameraPosition: CameraPosition(
+                  target: _center,
+                  zoom: 12.0,
                 ),
+                markers: _markers,
               ),
             ),
             const SizedBox(height: 20),

@@ -3,46 +3,52 @@ import 'package:playtomic/src/screens/book_a_court_screen.dart';
 import 'package:playtomic/src/screens/play_open_match_screen.dart';
 
 class PlayScreen extends StatelessWidget {
-  const PlayScreen({super.key});
+  const PlayScreen({Key? key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              const Text(
-                "Find your perfect match",
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text(
+              "Find your perfect match",
+              style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 10.0),
+            Row(
+              children: [
+                _buildGestureDetector(
+                  context: context,
+                  imagePath: 'assets/images/book_a_court.jpg',
+                  title: 'Book a court',
+                  subtitle: 'If you already know who you are playing with',
+                  icon: const Icon(Icons.search, color: Colors.white),
+                  screen: const BookACourtScreen(isPublic: false),
+                ),
+                const SizedBox(width: 10.0),
+                _buildGestureDetector(
+                  context: context,
+                  imagePath: 'assets/images/play_open_match.jpg',
+                  title: 'Play an open match',
+                  subtitle: 'If you are looking for players at your level',
+                  icon: const Icon(Icons.sports_baseball_outlined,
+                      color: Colors.white),
+                  screen: const PlayOpenMatchScreen(),
+                ),
+              ],
+            ),
+            const SizedBox(
+                height: 20.0), // Add space between the Row and the image
+            Expanded(
+              child: Image.asset(
+                'assets/images/padel-player.png',
+                fit: BoxFit.contain,
               ),
-              const SizedBox(height: 10.0),
-              Row(
-                children: [
-                  _buildGestureDetector(
-                    context: context,
-                    imagePath: 'assets/images/book_a_court.jpg',
-                    title: 'Book a court',
-                    subtitle: 'If you already know who you are playing with',
-                    icon: const Icon(Icons.search, color: Colors.white),
-                    screen: const BookACourtScreen(isPublic: false),
-                  ),
-                  const SizedBox(width: 10.0),
-                  _buildGestureDetector(
-                    context: context,
-                    imagePath: 'assets/images/play_open_match.jpg',
-                    title: 'Play an open match',
-                    subtitle: 'If you are looking for players at your level',
-                    icon: const Icon(Icons.sports_baseball_outlined,
-                        color: Colors.white),
-                    screen: const PlayOpenMatchScreen(),
-                  ),
-                ],
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
