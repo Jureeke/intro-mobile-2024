@@ -6,9 +6,16 @@ class ClubCompetitionsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: const Center(
-        child: Text('ClubCompetitionsScreen'),
+    return Scaffold(
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Image.asset('assets/images/oops.png'),
+            const SizedBox(height: 10),
+            const Text('Oops, It seems there are no competitions at this club'),
+          ],
+        ),
       ),
     );
   }

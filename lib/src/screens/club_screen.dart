@@ -12,7 +12,7 @@ class ClubScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<Widget> screens = [
-      const ClubHomeScreen(),
+      ClubHomeScreen(clubData: clubData),
       ClubBookScreen(clubData: clubData, isPublic: isPublic),
       const ClubCompetitionsScreen(),
     ];
