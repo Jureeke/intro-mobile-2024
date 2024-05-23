@@ -62,8 +62,41 @@ class ClubBookScreenState extends State<ClubBookScreen> {
       if (reservationDate.year == date.year &&
           reservationDate.month == date.month &&
           reservationDate.day == date.day) {
-        return '${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
-            timeSlot;
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate = reservationDate.add(const Duration(minutes: 30));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate = reservationDate.add(const Duration(minutes: 30));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate = reservationDate.add(const Duration(minutes: 30));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate =
+            reservationDate.subtract(const Duration(minutes: 120));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate = reservationDate.subtract(const Duration(minutes: 30));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
+        reservationDate = reservationDate.subtract(const Duration(minutes: 30));
+        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
+            timeSlot) {
+          return true;
+        }
       }
       return false;
     });
