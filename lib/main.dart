@@ -5,6 +5,8 @@ import 'src/settings/settings_controller.dart';
 import 'src/settings/settings_service.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'dart:html' as html;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,5 +24,14 @@ void main() async {
   // Run the app and pass in the SettingsController. The app listens to the
   // SettingsController for changes, then passes it further down to the
   // SettingsView.
+  await dotenv.load(fileName: ".env");
+  loadGoogleMapsScript(dotenv.env['GOOGLE_API_KEY']!);
   runApp(MyApp(settingsController: settingsController));
+}
+
+void loadGoogleMapsScript(String apiKey) {
+  final script = html.ScriptElement()
+    ..src = 'https://maps.googleapis.com/maps/api/js?key=$apiKey'
+    ..type = 'text/javascript';
+  html.document.head!.append(script);
 }

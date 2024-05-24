@@ -28,11 +28,16 @@
 
   <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
-  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBl9km4WIQ7Bkp6YdRRxCW5VrvGYzx-5oY"></script>
+  <script>
+    function loadGoogleMapsScript(apiKey) {
+      const script = document.createElement('script');
+      script.src = `https://maps.googleapis.com/maps/api/js?key=${apiKey}`;
+      document.head.appendChild(script);
+    }
+  </script>
 
   <title>Playtomic</title>
   <link rel="manifest" href="manifest.json">
-
   <script>
     // The value below is injected by flutter build, do not touch.
     const serviceWorkerVersion = null;

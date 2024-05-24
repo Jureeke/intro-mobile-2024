@@ -12,6 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  flutter_dotenv: ^5.0.2
   cupertino_icons: ^1.0.6
   firebase_core: ^2.30.0
   firebase_auth: ^4.19.2
@@ -39,3 +40,4 @@ flutter:
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
+    - .env
