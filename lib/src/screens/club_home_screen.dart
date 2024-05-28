@@ -6,7 +6,7 @@ class ClubHomeScreen extends StatefulWidget {
   static const routeName = '/home/profile/posts';
 
   final Map<String?, dynamic> clubData;
-  const ClubHomeScreen({Key? key, required this.clubData}) : super(key: key);
+  const ClubHomeScreen({super.key, required this.clubData});
 
   @override
   _ClubHomeScreenState createState() => _ClubHomeScreenState();
@@ -17,15 +17,14 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
   late int closes;
   late GeoPoint location;
   late String name;
-  late Map<String, dynamic> addressData; 
+  late Map<String, dynamic> addressData;
 
-  //Adress
+  // Address
   late GoogleMapController mapController;
-
   late LatLng _center; // Your specified coordinates
   final Set<Marker> _markers = {};
 
-    @override
+  @override
   void initState() {
     super.initState();
     opens = widget.clubData['opens'];
@@ -54,9 +53,10 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
           position: _center,
           infoWindow: InfoWindow(
             title: name,
-            snippet: '${addressData['street']}<br> ${addressData['city']} ${addressData['zipcode']}'
+            snippet: '${addressData['street']}<br> ${addressData['city']} ${addressData['zipcode']}',
+          ),
         ),
-      ));
+      );
     });
   }
 
@@ -64,7 +64,7 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-      body: Padding(
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(16.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
