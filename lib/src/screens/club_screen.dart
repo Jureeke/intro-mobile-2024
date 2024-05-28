@@ -17,6 +17,10 @@ class ClubScreen extends StatelessWidget {
       const ClubCompetitionsScreen(),
     ];
 
+    final address = clubData['address'];
+    final String street = address['street'] ?? '';
+    final String city = address['city'] ?? '';
+
     return DefaultTabController(
       initialIndex: 1,
       length: screens.length,
@@ -41,28 +45,50 @@ class ClubScreen extends StatelessWidget {
           },
           body: Scaffold(
             backgroundColor: const Color.fromARGB(255, 245, 245, 245),
-            appBar: AppBar(
-              toolbarHeight: 50,
-              title: Text(clubData['name']),
-              surfaceTintColor: Colors.white,
-              bottom: TabBar(
-                tabs: const [
-                  Tab(text: 'Home'),
-                  Tab(text: 'Book'),
-                  Tab(text: 'Competitions'),
-                ],
-                overlayColor: MaterialStateProperty.all(Colors.transparent),
-                indicatorSize: TabBarIndicatorSize.tab,
-                indicatorColor: Colors.black,
-                labelStyle: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                  fontSize: 15.0,
+            appBar: PreferredSize(
+              preferredSize: const Size.fromHeight(100),
+              child: AppBar(
+                toolbarHeight: 50,
+                title: Column(
+                  children: [
+                    Text(
+                      clubData['name'],
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20.0,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 4.0),
+                    Text(
+                      '$street, $city',
+                      style: const TextStyle(
+                        fontSize: 14.0,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
                 ),
-                unselectedLabelStyle: const TextStyle(
-                  fontWeight: FontWeight.normal,
-                  color: Colors.black,
-                  fontSize: 15.0,
+                surfaceTintColor: Colors.white,
+                bottom: TabBar(
+                  tabs: const [
+                    Tab(text: 'Home'),
+                    Tab(text: 'Book'),
+                    Tab(text: 'Competitions'),
+                  ],
+                  overlayColor: MaterialStateProperty.all(Colors.transparent),
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: Colors.black,
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                    fontSize: 15.0,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                    color: Colors.black,
+                    fontSize: 15.0,
+                  ),
                 ),
               ),
             ),
