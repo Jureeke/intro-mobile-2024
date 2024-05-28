@@ -27,7 +27,7 @@ class ClubBookScreenState extends State<ClubBookScreen> {
     super.initState();
     _fetchReservations();
     opens = widget.clubData['opens'];
-    closes = widget.clubData['closes'];
+    closes = widget.clubData['closes'] - 1;
     _selectedDate = DateTime.now();
     _selectedTime = '${opens.toString().padLeft(2, '0')}:00';
     _handleDateTap(_selectedDate, true);
