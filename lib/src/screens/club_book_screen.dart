@@ -92,11 +92,6 @@ class ClubBookScreenState extends State<ClubBookScreen> {
             timeSlot) {
           return true;
         }
-        reservationDate = reservationDate.subtract(const Duration(minutes: 30));
-        if ('${reservationDate.hour.toString().padLeft(2, '0')}:${reservationDate.minute.toString().padLeft(2, '0')}' ==
-            timeSlot) {
-          return true;
-        }
       }
       return false;
     });
