@@ -114,7 +114,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(height: 26),
                 TextField(
                   keyboardType: TextInputType.text,
-                  controller: _emailController,
+                  controller: _nameController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: const Color.fromARGB(12, 0, 0, 0),
@@ -128,7 +128,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     contentPadding: const EdgeInsets.only(
                         left: 12, right: 12, top: 20, bottom: 20),
                     suffixIcon: IconButton(
-                      onPressed: _emailController.clear,
+                      onPressed: _nameController.clear,
                       icon: Icon(
                         Icons.cancel,
                         color: Colors.grey[700],
@@ -139,7 +139,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 const SizedBox(height: 16),
                 TextField(
                   keyboardType: TextInputType.emailAddress,
-                  controller: _nameController,
+                  controller: _emailController,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: const Color.fromARGB(12, 0, 0, 0),
@@ -153,7 +153,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     contentPadding: const EdgeInsets.only(
                         left: 12, right: 12, top: 20, bottom: 20),
                     suffixIcon: IconButton(
-                      onPressed: _nameController.clear,
+                      onPressed: _emailController.clear,
                       icon: Icon(
                         Icons.cancel,
                         color: Colors.grey[700],

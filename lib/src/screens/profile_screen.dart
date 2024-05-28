@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:playtomic/src/screens/activities_screen.dart';
 import 'package:playtomic/src/screens/edit_profile_screen.dart';
 import 'package:playtomic/src/screens/posts_screen.dart';
+import 'package:playtomic/src/services/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   static const routeName = '/home/profile';
@@ -12,6 +14,31 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class ProfileScreenState extends State<ProfileScreen> {
+  String? name;
+  String? location;
+
+  final AuthService _authService = AuthService();
+
+  @override
+  void initState() {
+    super.initState();
+    populateControllers();
+  }
+
+  void populateControllers() async {
+    DocumentSnapshot<Map<String, dynamic>>? userInfo =
+        await _authService.getUserInfo();
+    if (userInfo != null) {
+      setState(() {
+        name = userInfo.data()?['username'] ?? '';
+        location = userInfo.data()?['location'] ?? 'Location not set';
+        if (location == '') {
+          location = "Location not set";
+        }
+      });
+    }
+  }
+
   final List<Widget> _screens = [
     const ActivitiesScreen(),
     const PostsScreen(),
@@ -32,23 +59,24 @@ class ProfileScreenState extends State<ProfileScreen> {
                   toolbarHeight: 250.0,
                   title: Column(
                     children: [
-                      const Row(
+                      Row(
                         children: [
-                          CircleAvatar(
+                          const CircleAvatar(
                             backgroundImage: NetworkImage(
                                 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRw6CURm0X8IN4G7dKWPwO7AI9l9dV61vZZYeGT-Huytw&s'),
                             radius: 35,
                           ),
-                          SizedBox(width: 15),
+                          const SizedBox(width: 15),
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Username',
-                                  style: TextStyle(
+                              Text(name ?? '',
+                                  style: const TextStyle(
                                       fontSize: 21,
                                       fontWeight: FontWeight.bold)),
-                              SizedBox(height: 5),
-                              Text('Location', style: TextStyle(fontSize: 14)),
+                              const SizedBox(height: 5),
+                              Text(location ?? '',
+                                  style: const TextStyle(fontSize: 14)),
                             ],
                           ),
                         ],

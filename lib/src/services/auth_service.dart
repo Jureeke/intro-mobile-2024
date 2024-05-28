@@ -25,7 +25,7 @@ class AuthService {
       await _db
           .collection('users')
           .doc(result.user!.uid)
-          .set({'username': username, 'mobile': mobile});
+          .set({'username': username, 'mobile': mobile, 'email': email});
     } catch (error) {
       print("Error registering user: $error");
       rethrow;
@@ -325,10 +325,8 @@ class AuthService {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
-        DocumentSnapshot<Map<String, dynamic>> userDoc = await _db
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await _db.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
           Map<String, dynamic>? data = userDoc.data();
           if (data != null && data.containsKey('interests')) {
@@ -364,10 +362,8 @@ class AuthService {
     User? user = _auth.currentUser;
     if (user != null) {
       try {
-        DocumentSnapshot<Map<String, dynamic>> userDoc = await _db
-            .collection('users')
-            .doc(user.uid)
-            .get();
+        DocumentSnapshot<Map<String, dynamic>> userDoc =
+            await _db.collection('users').doc(user.uid).get();
         if (userDoc.exists) {
           Map<String, dynamic>? data = userDoc.data();
           if (data != null && data.containsKey('preferences')) {
