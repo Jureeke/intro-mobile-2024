@@ -16,6 +16,7 @@ class ProfileScreen extends StatefulWidget {
 class ProfileScreenState extends State<ProfileScreen> {
   String? name;
   String? location;
+  Map<String, dynamic>? preferences;
 
   final AuthService _authService = AuthService();
 
@@ -31,6 +32,7 @@ class ProfileScreenState extends State<ProfileScreen> {
     if (userInfo != null) {
       setState(() {
         name = userInfo.data()?['username'] ?? '';
+        preferences = userInfo.data()?['preferences']?? {};
         location = userInfo.data()?['location'] ?? 'Location not set';
         if (location == '') {
           location = "Location not set";
@@ -38,17 +40,17 @@ class ProfileScreenState extends State<ProfileScreen> {
       });
     }
   }
-
-  final List<Widget> _screens = [
-    const ActivitiesScreen(),
-    const PostsScreen(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+      final List<Widget> screens = [
+      if (preferences != null)
+        ActivitiesScreen(preferences: preferences!),
+      const PostsScreen(),
+    ];
+
     return DefaultTabController(
       animationDuration: Duration.zero,
-      length: _screens.length,
+      length: screens.length,
       child: Scaffold(
         body: NestedScrollView(
             headerSliverBuilder:
@@ -229,7 +231,7 @@ class ProfileScreenState extends State<ProfileScreen> {
               ),
               body: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
-                children: _screens,
+                children: screens,
               ),
             )),
       ),
