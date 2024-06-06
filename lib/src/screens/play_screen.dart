@@ -41,7 +41,7 @@ class PlayScreen extends StatelessWidget {
               ],
             ),
             const SizedBox(
-                height: 20.0), // Add space between the Row and the image
+                height: 20.0),
             Expanded(
               child: Image.asset(
                 'assets/images/padel-player.png',

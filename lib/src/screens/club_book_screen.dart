@@ -284,7 +284,6 @@ class ClubBookScreenState extends State<ClubBookScreen> {
                                   int.parse(_selectedTime!.split(':')[1])));
                           _fetchReservations();
                         } catch (error) {
-                          // Handle login error
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(

@@ -113,7 +113,7 @@ class RegisterScreenState extends State<RegisterScreen> {
                         enabledBorder: UnderlineInputBorder(
                           borderSide: BorderSide(
                               color: Colors
-                                  .indigo), // Change this color to suit your design
+                                  .indigo),
                         ),
                       ),
                       style: const TextStyle(height: 1.2),
@@ -228,12 +228,10 @@ class RegisterScreenState extends State<RegisterScreen> {
                           _usernameController.text,
                           _mobileController.text,
                         );
-                        // Navigate to home page after successful registration
                         if (!context.mounted) return;
                         Navigator.pushNamedAndRemoveUntil(
                             context, HomeScreen.routeName, (r) => false);
                       } catch (error) {
-                        // Handle registration error
                         showDialog(
                           context: context,
                           builder: (context) => AlertDialog(

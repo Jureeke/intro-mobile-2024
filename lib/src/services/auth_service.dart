@@ -349,9 +349,7 @@ class AuthService {
             .collection('users')
             .doc(user.uid)
             .set({'preferences': preferences}, SetOptions(merge: true));
-        print("Voorkeuren opgeslagen voor gebruiker ${user.uid}");
       } catch (e) {
-        print("Error saving preferences: $e");
         rethrow;
       }
     }

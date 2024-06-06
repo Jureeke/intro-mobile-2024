@@ -8,7 +8,7 @@ class EditPasswordScreen extends StatelessWidget {
         appBar: AppBar(
           title: const Text('Edit Password'),
         ),
-        body: Center(
+        body: const Center(
           child: Text(
             'Edit Password Screen',
             style: TextStyle(fontSize: 24),

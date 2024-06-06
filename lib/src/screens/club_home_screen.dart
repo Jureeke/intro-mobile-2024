@@ -21,7 +21,7 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
 
   // Address
   late GoogleMapController mapController;
-  late LatLng _center; // Your specified coordinates
+  late LatLng _center;
   final Set<Marker> _markers = {};
 
   @override
@@ -84,8 +84,8 @@ class _ClubHomeScreenState extends State<ClubHomeScreen> {
                 ),
               ],
             ),
-            SizedBox(height: 25),
-            Text(
+            const SizedBox(height: 25),
+            const Text(
               '1 court(s) available',
               style: TextStyle(fontSize: 15),
             ),

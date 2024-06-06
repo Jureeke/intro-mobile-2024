@@ -16,13 +16,12 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
   @override
   void initState() {
     super.initState();
-    // Laad de voorkeuren van de gebruiker bij het initialiseren van de state
     loadUserPreferences();
   }
 
   void loadUserPreferences() async {
     List<String>? userPreferences = await AuthService()
-        .loadUserPreferences(); // Roep de functie aan via de AuthService
+        .loadUserPreferences();
     setState(() {
       selectedBestHand = userPreferences?[0];
       selectedBaanPositie = userPreferences?[1];
@@ -37,7 +36,7 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
         title: const Text('Preferences of player'),
       ),
       body: Padding(
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,7 +53,7 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
                   });
                 },
               ),
-              SizedBox(height: 0),
+              const SizedBox(height: 0),
               CustomCheckboxGroupWithLabel(
                 label: 'Court side',
                 options: ['Backend', 'Forehand', 'Both sides'],
@@ -66,7 +65,7 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
                   });
                 },
               ),
-              SizedBox(height: 30),
+              const SizedBox(height: 30),
               CustomCheckboxGroupWithLabel(
                 label: 'Match type',
                 options: ['Competitive', 'Friendly', 'Both'],
@@ -78,8 +77,8 @@ class _EditPreferencesScreenState extends State<EditPreferencesScreen> {
                   });
                 },
               ),
-              SizedBox(height: 10),
-              Text(
+              const SizedBox(height: 10),
+              const Text(
                   'The result of the match will count for your level progress if you make it competitive')
             ],
           ),
@@ -111,12 +110,12 @@ class CustomCheckboxGroupWithLabel extends StatelessWidget {
       children: [
         Text(
           label,
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: 20),
+        const SizedBox(height: 20),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -129,7 +128,7 @@ class CustomCheckboxGroupWithLabel extends StatelessWidget {
                   onChanged: onChanged,
                   preferenceKey: preferenceKey,
                 ),
-                SizedBox(width: 10), // Extra ruimte tussen de checkboxen
+                const SizedBox(width: 10),
               ],
             );
           }),
@@ -170,7 +169,7 @@ class CustomCheckbox extends StatelessWidget {
             width: 1,
           ),
         ),
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         child: Text(
           text,
           style: TextStyle(
